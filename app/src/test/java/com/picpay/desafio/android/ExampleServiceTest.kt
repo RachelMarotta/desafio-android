@@ -1,5 +1,6 @@
 package com.picpay.desafio.android
 
+import com.google.firebase.firestore.auth.User
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.whenever
 import junit.framework.Assert.assertEquals
