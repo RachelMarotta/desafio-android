@@ -1,4 +1,4 @@
-package com.picpay.desafio.android
+package com.picpay.desafio.android.service
 
 import com.google.firebase.firestore.auth.User
 import com.nhaarman.mockitokotlin2.mock

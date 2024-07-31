@@ -2,30 +2,29 @@ package com.picpay.desafio.android.presenter
 
 import com.picpay.desafio.android.model.User
 import com.picpay.desafio.android.model.repository.UserRepository
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class UserPresenter(private val view: View, private val repository: UserRepository) {
 
     fun loadUsers() {
         view.showLoading()
-        repository.getUsers().enqueue(object : Callback<List<User>> {
-            override fun onFailure(call: Call<List<User>>, t: Throwable) {
-                view.showError()
-            }
-
-            override fun onResponse(call: Call<List<User>>, response: Response<List<User>>) {
+        CoroutineScope(Dispatchers.Main).launch {
+            val usersFromDb = repository.getUsersFromDb()
+            if (usersFromDb.isNotEmpty()) {
+                view.showUsers(usersFromDb)
                 view.hideLoading()
-                if (response.isSuccessful) {
-                    response.body()?.let {
-                        view.showUsers(it)
-                    } ?: view.showError()
+            } else {
+                val usersFromApi = repository.getUsersFromApi()
+                if (usersFromApi != null) {
+                    view.showUsers(usersFromApi)
                 } else {
                     view.showError()
                 }
+                view.hideLoading()
             }
-        })
+        }
     }
 
     interface View {

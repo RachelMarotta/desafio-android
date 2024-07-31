@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.picpay.desafio.android.AppDatabase
 import com.picpay.desafio.android.R
 import com.picpay.desafio.android.model.User
 import com.picpay.desafio.android.model.repository.UserRepository
@@ -30,8 +31,9 @@ class MainActivity : AppCompatActivity(R.layout.activity_main), UserPresenter.Vi
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = UserListAdapter()
 
+        val database = AppDatabase.getDatabase(this)
         val service = retrofit.create(PicPayService::class.java)
-        val repository = UserRepository(service)
+        val repository = UserRepository(service, database.userDao())
 
         presenter = UserPresenter(this, repository)
         presenter.loadUsers()
