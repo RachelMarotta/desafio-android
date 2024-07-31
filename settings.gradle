@@ -1,1 +1,2 @@
-include ':app'
+rootProject.name = "desafio android"
+include ':app', ':test'

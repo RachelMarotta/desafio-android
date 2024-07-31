@@ -1,4 +1,6 @@
-package com.picpay.desafio.android
+package com.picpay.desafio.android.service
+
+import com.picpay.desafio.android.test
 
 class ExampleService(
     private val service: PicPayService
